@@ -377,29 +377,35 @@
         const groupLetter = container.getAttribute('data-group');
         const rows = container.querySelectorAll('.team-row');
         let newOrder = [];
+        let groupHasAdvancingThird = false;
         
         rows.forEach((row, idx) => {
             row.querySelector('.rank-badge').innerText = idx + 1;
             
-            // Clean up visual ranks
             row.classList.remove('rank-1', 'rank-2', 'rank-3');
             if (idx === 0) row.classList.add('rank-1');
             if (idx === 1) row.classList.add('rank-2');
             if (idx === 2) row.classList.add('rank-3');
 
-            // Explicit Checkbox State Cleanup Logic
             const cb = row.querySelector('.tp-inline-checkbox');
             if (idx !== 2) {
-                // If the team is dragged out of the #3 spot, force uncheck the hidden box
-                // and aggressively remove that group letter from the Set
-                if (cb) {
-                    cb.checked = false;
-                }
-                selectedThirdPlaceGroups.delete(groupLetter);
+                // If a team is dragged out of 3rd place, explicitly uncheck its checkbox
+                if (cb) cb.checked = false;
+            } else {
+                // Determine if the group still has an advancing 3rd place team
+                if (cb && cb.checked) groupHasAdvancingThird = true;
             }
 
             newOrder.push({ name: row.getAttribute('data-team'), flag: row.getAttribute('data-flag') });
         });
+
+        // Add or explicitly delete the group from the Set based on the final loop evaluation
+        if (groupHasAdvancingThird) {
+            selectedThirdPlaceGroups.add(groupLetter);
+        } else {
+            selectedThirdPlaceGroups.delete(groupLetter);
+        }
+        
         groupStandings[groupLetter] = newOrder;
     }
 
