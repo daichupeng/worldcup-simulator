@@ -460,4 +460,282 @@
                 { id: 73, t1: { source: 'R', grp: 'A' }, t2: { source: 'R', grp: 'B' }, next: 90, side: 't1' }, { id: 75, t1: { source: 'W', grp: 'F' }, t2: { source: 'R', grp: 'C' }, next: 90, side: 't2' },
                 { id: 74, t1: { source: 'W', grp: 'E' }, t2: { source: '3rd', idx: 0 }, next: 89, side: 't1' }, { id: 77, t1: { source: 'W', grp: 'I' }, t2: { source: '3rd', idx: 1 }, next: 89, side: 't2' },
                 { id: 76, t1: { source: 'W', grp: 'C' }, t2: { source: 'R', grp: 'F' }, next: 91, side: 't1' }, { id: 78, t1: { source: 'R', grp: 'E' }, t2: { source: 'R', grp: 'I' }, next: 91, side: 't2' },
-                { id: 79, t1: { source: 'W', grp: 'A' }, t2: { source: '3rd', idx: 2 }, next: 92, side: 't1' }, { id: 80, t1: { source: '
+                { id: 79, t1: { source: 'W', grp: 'A' }, t2: { source: '3rd', idx: 2 }, next: 92, side: 't1' }, { id: 80, t1: { source: 'W', grp: 'L' }, t2: { source: '3rd', idx: 3 }, next: 92, side: 't2' }
+            ],
+            r16: [
+                { id: 90, from: [73, 75], next: 97, side: 't2' }, { id: 89, from: [74, 77], next: 97, side: 't1' },
+                { id: 91, from: [76, 78], next: 99, side: 't1' }, { id: 92, from: [79, 80], next: 99, side: 't2' }
+            ],
+            qf: [ { id: 97, from: [89, 90], next: 101, side: 't1' }, { id: 99, from: [91, 92], next: 101, side: 't2' } ],
+            sf: [ { id: 101, from: [97, 99], next: 104, side: 't1' } ]
+        },
+        right: {
+            r32: [
+                { id: 81, t1: { source: 'W', grp: 'D' }, t2: { source: '3rd', idx: 4 }, next: 94, side: 't1' }, { id: 82, t1: { source: 'W', grp: 'G' }, t2: { source: '3rd', idx: 5 }, next: 94, side: 't2' },
+                { id: 83, t1: { source: 'R', grp: 'K' }, t2: { source: 'R', grp: 'L' }, next: 93, side: 't1' }, { id: 84, t1: { source: 'W', grp: 'H' }, t2: { source: 'R', grp: 'J' }, next: 93, side: 't2' },
+                { id: 85, t1: { source: 'W', grp: 'B' }, t2: { source: '3rd', idx: 6 }, next: 96, side: 't1' }, { id: 87, t1: { source: 'W', grp: 'K' }, t2: { source: '3rd', idx: 7 }, next: 96, side: 't2' },
+                { id: 86, t1: { source: 'W', grp: 'J' }, t2: { source: 'R', grp: 'H' }, next: 95, side: 't1' }, { id: 88, t1: { source: 'R', grp: 'D' }, t2: { source: 'R', grp: 'G' }, next: 95, side: 't2' }
+            ],
+            r16: [
+                { id: 94, from: [81, 82], next: 98, side: 't2' }, { id: 93, from: [83, 84], next: 98, side: 't1' },
+                { id: 96, from: [85, 87], next: 100, side: 't2' }, { id: 95, from: [86, 88], next: 100, side: 't1' }
+            ],
+            qf: [ { id: 98, from: [93, 94], next: 102, side: 't1' }, { id: 100, from: [95, 96], next: 102, side: 't2' } ],
+            sf: [ { id: 102, from: [98, 100], next: 104, side: 't2' } ]
+        }
+    };
+
+    let koWinners = {};
+
+    function generateKnockoutBracket() {
+        if (selectedThirdPlaceGroups.size !== 8) {
+            alert(`请务必勾选恰好8支以小组第三身份晋级的球队。（已选：${selectedThirdPlaceGroups.size}支）`);
+            return;
+        }
+
+        koWinners = {};
+        document.getElementById('match-104-t1').innerText = '待定 (左)';
+        document.getElementById('match-104-t2').innerText = '待定 (右)';
+        document.getElementById('match-104-t1').className = 'match-team';
+        document.getElementById('match-104-t2').className = 'match-team';
+        document.getElementById('champion-name').innerText = '-';
+        
+        document.getElementById('share-btn').style.display = 'none';
+        document.getElementById('champion-box').classList.remove('champion-flash');
+
+        const qualified3rdTeams = Array.from(selectedThirdPlaceGroups).map(letter => groupStandings[letter][2]);
+
+        const getTeamString = (cfg) => {
+            let t = null;
+            if (cfg.source === 'W') t = groupStandings[cfg.grp][0];
+            if (cfg.source === 'R') t = groupStandings[cfg.grp][1];
+            if (cfg.source === '3rd') t = qualified3rdTeams[cfg.idx];
+            return t ? `${t.flag} ${t.name}` : "待定";
+        };
+
+        ['left', 'right'].forEach(side => {
+            ['r32', 'r16', 'qf', 'sf'].forEach(round => {
+                const columnContainer = document.getElementById(`${side}-${round}`);
+                columnContainer.innerHTML = '';
+                
+                bracketTree[side][round].forEach(m => {
+                    let t1 = "待定", t2 = "待定";
+                    if (round === 'r32') {
+                        t1 = getTeamString(m.t1);
+                        t2 = getTeamString(m.t2);
+                    }
+                    columnContainer.innerHTML += `
+                        <div class="match-box" id="match-${m.id}">
+                            <div class="match-id">第${m.id}场</div>
+                            <div class="match-team" id="match-${m.id}-t1" onclick="pickWinner(${m.id}, 't1')">${t1}</div>
+                            <div class="match-team" id="match-${m.id}-t2" onclick="pickWinner(${m.id}, 't2')">${t2}</div>
+                        </div>
+                    `;
+                });
+            });
+        });
+
+        switchTab('knockout-tab', document.getElementById('ko-nav-btn'));
+    }
+
+    function pickWinner(matchId, pickSlot) {
+        const opposingSlot = pickSlot === 't1' ? 't2' : 't1';
+        const winnerEl = document.getElementById(`match-${matchId}-${pickSlot}`);
+        const loserEl = document.getElementById(`match-${matchId}-${opposingSlot}`);
+        const winnerName = winnerEl.innerText;
+
+        if (winnerName === '待定' || winnerName === '') return;
+
+        winnerEl.className = 'match-team selected';
+        loserEl.className = 'match-team loser';
+        koWinners[matchId] = winnerName;
+
+        propagateWinner(matchId, winnerName);
+    }
+
+    function propagateWinner(currentMatchId, winnerName) {
+        if (currentMatchId === 104) {
+            document.getElementById('champion-name').innerHTML = `<strong>${winnerName}</strong>`;
+            
+            const champBox = document.getElementById('champion-box');
+            champBox.classList.remove('champion-flash');
+            void champBox.offsetWidth;
+            champBox.classList.add('champion-flash');
+            document.getElementById('share-btn').style.display = 'block';
+            return;
+        }
+
+        let nextMatchId = null;
+        let targetSlot = null;
+
+        for (const side of ['left', 'right']) {
+            for (const round of ['r32', 'r16', 'qf', 'sf']) {
+                const found = bracketTree[side][round].find(m => m.id === currentMatchId);
+                if (found) { nextMatchId = found.next; targetSlot = found.side; break; }
+            }
+        }
+
+        if (nextMatchId) {
+            const targetEl = document.getElementById(`match-${nextMatchId}-${targetSlot}`);
+            if (targetEl.innerText !== winnerName && targetEl.innerText !== '待定') clearDownstream(nextMatchId);
+            
+            targetEl.innerText = winnerName;
+            targetEl.className = 'match-team';
+            
+            const oppSlot = targetSlot === 't1' ? 't2' : 't1';
+            document.getElementById(`match-${nextMatchId}-${oppSlot}`).classList.remove('selected', 'loser');
+        }
+    }
+
+    function clearDownstream(matchId) {
+        delete koWinners[matchId];
+        if(matchId === 104) {
+            document.getElementById('champion-name').innerText = '-';
+            document.getElementById('share-btn').style.display = 'none';
+            document.getElementById('champion-box').classList.remove('champion-flash');
+            return;
+        }
+
+        const t1 = document.getElementById(`match-${matchId}-t1`);
+        const t2 = document.getElementById(`match-${matchId}-t2`);
+        if (t1) t1.className = 'match-team';
+        if (t2) t2.className = 'match-team';
+
+        let nextMatchId = null;
+        let targetSlot = null;
+
+        for (const side of ['left', 'right']) {
+            for (const round of ['r32', 'r16', 'qf', 'sf']) {
+                const found = bracketTree[side][round].find(m => m.id === matchId);
+                if (found) { nextMatchId = found.next; targetSlot = found.side; break; }
+            }
+        }
+
+        if (nextMatchId) {
+            const targetEl = document.getElementById(`match-${nextMatchId}-${targetSlot}`);
+            if (targetEl) { targetEl.innerText = '待定'; targetEl.className = 'match-team'; }
+            clearDownstream(nextMatchId);
+        }
+    }
+
+    function shareRoadToGlory() {
+        const championName = document.getElementById('champion-name').innerText.trim();
+        if(!championName || championName === '-') return;
+
+        const champJustName = championName.replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]\s*/g, '').trim(); 
+        
+        let groupStr = "从小组赛晋级";
+        for (const [grp, teams] of Object.entries(groupStandings)) {
+            const idx = teams.findIndex(t => championName.includes(t.name));
+            if (idx !== -1) {
+                const rank = idx === 0 ? '小组第一' : (idx === 1 ? '小组第二' : '小组第三');
+                groupStr = `${grp}组 ${rank}`;
+                break;
+            }
+        }
+
+        const rounds = [
+            { name: '1/16决赛', start: 73, end: 88 },
+            { name: '1/8决赛', start: 89, end: 96 },
+            { name: '1/4决赛', start: 97, end: 100 },
+            { name: '半决赛', start: 101, end: 102 },
+            { name: '决赛', start: 104, end: 104 }
+        ];
+
+        let history = [];
+        rounds.forEach(r => {
+            for(let i=r.start; i<=r.end; i++) {
+                const t1El = document.getElementById(`match-${i}-t1`);
+                const t2El = document.getElementById(`match-${i}-t2`);
+                if(t1El && t2El) {
+                    const t1 = t1El.innerText;
+                    const t2 = t2El.innerText;
+                    if(t1 === championName) { history.push({ round: r.name, opponent: t2 }); break; }
+                    if(t2 === championName) { history.push({ round: r.name, opponent: t1 }); break; }
+                }
+            }
+        });
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 600;
+        canvas.height = 550;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.fillStyle = '#0f172a';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#1e293b';
+        if (ctx.roundRect) {
+            ctx.beginPath();
+            ctx.roundRect(20, 20, 560, 510, 15);
+            ctx.fill();
+        } else {
+            ctx.fillRect(20, 20, 560, 510);
+        }
+
+        ctx.fillStyle = '#10b981';
+        ctx.font = 'bold 32px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(`🏆 ${championName} 🏆`, 300, 80);
+        
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = 'bold 18px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillText('2026 世界冠军 - 夺冠之路', 300, 115);
+        
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(50, 140);
+        ctx.lineTo(550, 140);
+        ctx.stroke();
+
+        ctx.textAlign = 'left';
+        ctx.font = 'bold 20px "PingFang SC", "Microsoft YaHei", sans-serif';
+        let y = 200;
+        
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('小组赛：', 80, y);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(groupStr, 240, y);
+        y += 50;
+
+        history.forEach(h => {
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText(h.round + '：', 80, y);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(`击败 ${h.opponent}`, 240, y);
+            y += 50;
+        });
+
+        ctx.textAlign = 'center';
+        ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif';
+        ctx.fillStyle = '#64748b';
+        ctx.fillText('由 2026 世界杯模拟器生成', 300, y + 20);
+
+        const safeName = champJustName.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g, '_');
+        const filename = `夺冠之路_${safeName}.png`;
+
+        canvas.toBlob((blob) => {
+            const file = new File([blob], filename, { type: 'image/png' });
+            
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({
+                    title: '2026世界杯冠军',
+                    text: `快来看看 ${championName} 的夺冠之路！`,
+                    files: [file]
+                }).catch((error) => {
+                    console.log('分享中断或失败:', error);
+                });
+            } else {
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = URL.createObjectURL(blob);
+                link.click();
+            }
+        }, 'image/png');
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
