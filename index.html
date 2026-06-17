@@ -197,7 +197,7 @@
                         <div class="champion-box" id="champion-box">
                             <strong>🏆 WORLD CHAMPION</strong>
                             <div id="champion-name">-</div>
-                            <button id="share-btn" onclick="shareRoadToGlory()">📸 Save Road to Glory Image</button>
+                            <button id="share-btn" onclick="shareRoadToGlory()">📸 Share / Save to Photos</button>
                         </div>
                     </div>
                 </div>
@@ -389,17 +389,14 @@
 
             const cb = row.querySelector('.tp-inline-checkbox');
             if (idx !== 2) {
-                // If a team is dragged out of 3rd place, explicitly uncheck its checkbox
                 if (cb) cb.checked = false;
             } else {
-                // Determine if the group still has an advancing 3rd place team
                 if (cb && cb.checked) groupHasAdvancingThird = true;
             }
 
             newOrder.push({ name: row.getAttribute('data-team'), flag: row.getAttribute('data-flag') });
         });
 
-        // Add or explicitly delete the group from the Set based on the final loop evaluation
         if (groupHasAdvancingThird) {
             selectedThirdPlaceGroups.add(groupLetter);
         } else {
@@ -716,10 +713,29 @@
         ctx.fillText('Simulated via World Cup 2026 Simulator', 300, y + 20);
 
         const safeName = champJustName.replace(/[^a-zA-Z0-9]/g, '_');
-        const link = document.createElement('a');
-        link.download = `Road_to_Glory_${safeName}.png`;
-        link.href = canvas.toDataURL('image/png');
-        link.click();
+        const filename = `Road_to_Glory_${safeName}.png`;
+
+        // Modern Mobile Share API implementation
+        canvas.toBlob((blob) => {
+            const file = new File([blob], filename, { type: 'image/png' });
+            
+            // Check if native sharing of files is supported (iOS Safari / Android Chrome)
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                navigator.share({
+                    title: 'World Cup 2026 Champion',
+                    text: `Check out my simulated road to glory for ${championName}!`,
+                    files: [file]
+                }).catch((error) => {
+                    console.log('Sharing aborted or failed:', error);
+                });
+            } else {
+                // Fallback for Desktop Browsers (Standard Download)
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = URL.createObjectURL(blob);
+                link.click();
+            }
+        }, 'image/png');
     }
 
     window.onload = init;
