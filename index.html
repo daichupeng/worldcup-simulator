@@ -29,16 +29,10 @@
         
         .page-container { max-width: 1250px; margin: 0 auto; padding: 0 15px 15px 15px; }
 
-        /* Sticky Header Components */
         .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background: var(--bg);
-            padding: 15px 0 10px 0;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 15px;
-            text-align: center;
+            position: sticky; top: 0; z-index: 1000; background: var(--bg);
+            padding: 15px 0 10px 0; border-bottom: 1px solid var(--border);
+            margin-bottom: 15px; text-align: center;
         }
         .sticky-header h1 { color: var(--primary); font-size: 26px; margin-bottom: 12px; }
 
@@ -46,7 +40,6 @@
         .tab-btn { padding: 8px 18px; border: none; background: #cbd5e1; color: var(--text); font-size: 16px; font-weight: bold; cursor: pointer; border-radius: 6px; transition: 0.2s; }
         .tab-btn.active { background: var(--accent); color: white; }
 
-        /* Mobile specific folding navigations inside header */
         .mobile-ko-nav { display: none; justify-content: center; gap: 8px; margin-top: 12px; }
         .m-nav-btn { flex: 1; padding: 10px; border-radius: 6px; border: 1px solid var(--accent); background: white; color: var(--accent); font-weight: bold; cursor: pointer; font-size: 14px; }
         .m-nav-btn.active { background: var(--accent); color: white; }
@@ -54,7 +47,7 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* Tab 1: Group Stage */
+        /* Group Stage */
         .groups-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
         @media (max-width: 1000px) { .groups-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 600px) { .groups-grid { grid-template-columns: 1fr; } }
@@ -64,14 +57,11 @@
         
         .team-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 8px; margin: 5px 0; background: var(--bg); border-radius: 4px; border: 1px dashed #cbd5e1; cursor: grab; font-size: 15px; transition: background-color 0.1s ease; }
         .team-row:active { cursor: grabbing; }
-        
         .team-row.dragging { opacity: 0.3; background: #f1f5f9 !important; border: 2px dashed #94a3b8; }
-        
         .team-info { display: flex; gap: 10px; align-items: center; pointer-events: none; width: 80%; }
         .rank-badge { font-weight: bold; width: 18px; text-align: center; }
         .team-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .drag-controls { display: flex; align-items: center; gap: 2px; }
-        
         .drag-handle { color: var(--line-color); font-size: 20px; padding: 8px; cursor: grab; touch-action: none; }
 
         .tp-inline-wrapper { display: none; align-items: center; margin-right: 6px; }
@@ -86,9 +76,8 @@
         .primary-btn { padding: 10px 30px; font-size: 16px; background: var(--accent); color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer; transition: 0.2s; }
         .primary-btn:hover { background: var(--accent-hover); }
 
-        /* Tab 2: Knockout Tree Components */
+        /* Knockout Tree */
         .bracket-outer { width: 100%; display: flex; justify-content: center; padding: 10px 0; }
-        
         .round-title { text-align: center; font-weight: bold; margin-bottom: 6px; color: var(--primary); background: #e2e8f0; padding: 4px; border-radius: 4px; font-size: 13px; }
         .match-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); display: flex; flex-direction: column; overflow: hidden; z-index: 2; position: relative; margin-bottom: 10px; }
         .match-id { font-size: 11px; background: #f1f5f9; color: #64748b; padding: 4px 8px; font-weight: bold; border-bottom: 1px solid var(--border); }
@@ -113,7 +102,7 @@
         #share-btn:hover { background: #059669; }
         #share-btn:disabled { background: #94a3b8; cursor: not-allowed; }
 
-        /* Share Modal Styles */
+        /* Share Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(15, 23, 42, 0.85); display: none; justify-content: center; align-items: center;
@@ -130,14 +119,34 @@
         .btn-cancel { background: #e2e8f0; color: #475569; }
         .btn-save { background: var(--accent); color: white; }
 
+        /* Connectors */
+        .match-pair { display: flex; flex-direction: column; position: relative; }
+
         /* Desktop Layout */
         @media (min-width: 901px) {
-            .bracket-container { display: flex; align-items: stretch; gap: 15px; justify-content: center; width: 100%; height: 820px; }
-            .bracket-section { display: flex; flex-direction: row; gap: 15px; }
-            .round-column { display: flex; flex-direction: column; width: 170px; height: 100%; justify-content: space-around; }
-            .center-column { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 220px; height: 100%; gap: 25px; }
-            .match-list { display: flex; flex-direction: column; height: 100%; justify-content: space-around; gap: 0; }
-            .match-box { margin-bottom: 0; }
+            .bracket-container { display: flex; align-items: stretch; gap: 24px; justify-content: center; width: 100%; height: 820px; }
+            .bracket-section { display: flex; flex-direction: row; gap: 24px; }
+            .round-column { display: flex; flex-direction: column; width: 165px; height: 100%; }
+            .center-column { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 200px; height: 100%; gap: 25px; }
+            .match-list { display: flex; flex-direction: column; height: 100%; gap: 0; }
+            
+            .match-pair { flex: 1; justify-content: space-around; }
+
+            #sec-left .match-pair.is-pair::after {
+                content: ''; position: absolute; right: -12px; top: 25%; bottom: 25%; width: 12px;
+                border-right: 2px solid var(--line-color); border-top: 2px solid var(--line-color); border-bottom: 2px solid var(--line-color);
+                border-top-right-radius: 4px; border-bottom-right-radius: 4px;
+            }
+            #sec-left .match-pair.is-pair::before { content: ''; position: absolute; right: -24px; top: 50%; width: 12px; border-top: 2px solid var(--line-color); }
+            #left-sf .match-pair::after { content: ''; position: absolute; right: -24px; top: 50%; width: 24px; border-top: 2px solid var(--line-color); }
+
+            #sec-right .match-pair.is-pair::after {
+                content: ''; position: absolute; left: -12px; top: 25%; bottom: 25%; width: 12px;
+                border-left: 2px solid var(--line-color); border-top: 2px solid var(--line-color); border-bottom: 2px solid var(--line-color);
+                border-top-left-radius: 4px; border-bottom-left-radius: 4px;
+            }
+            #sec-right .match-pair.is-pair::before { content: ''; position: absolute; left: -24px; top: 50%; width: 12px; border-top: 2px solid var(--line-color); }
+            #right-sf .match-pair::after { content: ''; position: absolute; left: -24px; top: 50%; width: 24px; border-top: 2px solid var(--line-color); }
         }
 
         /* Mobile Layout */
@@ -149,6 +158,13 @@
             
             .round-column, .center-column { width: 100%; height: auto; }
             .match-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; align-items: start; }
+
+            .match-pair { background: #f1f5f9; padding: 10px; border-radius: 8px; border: 2px solid var(--border); gap: 8px; }
+            .match-pair.is-pair::after {
+                content: '↓ 胜者晋级下一轮对阵'; display: block; text-align: center;
+                font-size: 11px; color: var(--accent); font-weight: bold; margin-top: 2px;
+                background: #eff6ff; padding: 4px; border-radius: 4px;
+            }
 
             #sec-right { display: none; flex-direction: column; }
             #sec-right.active { display: flex; }
@@ -255,7 +271,6 @@
 
     let groupStandings = {};
     let selectedThirdPlaceGroups = new Set();
-
     let currentShareBlob = null;
     let currentShareFilename = "";
 
@@ -265,7 +280,6 @@
 
         for (const [letter, teams] of Object.entries(groupData)) {
             groupStandings[letter] = [...teams];
-            
             let html = `<div class="group-card" id="group-${letter}">
                 <div class="group-title">${letter}组</div>
                 <div class="rows-container" data-group="${letter}">`;
@@ -298,7 +312,6 @@
 
     function setupDragAndDrop() {
         const containers = document.querySelectorAll('.rows-container');
-        
         let draggedItem = null;
         let ghostEl = null;
         let offsetX = 0;
@@ -306,9 +319,7 @@
 
         containers.forEach(container => {
             container.addEventListener('dragstart', e => { 
-                if (e.target.classList.contains('team-row')) {
-                    e.target.classList.add('dragging'); 
-                }
+                if (e.target.classList.contains('team-row')) e.target.classList.add('dragging'); 
             });
             container.addEventListener('dragend', e => { 
                 if (e.target.classList.contains('team-row')) { 
@@ -329,7 +340,6 @@
             container.addEventListener('touchstart', e => {
                 if (e.target.classList.contains('drag-handle')) {
                     draggedItem = e.target.closest('.team-row');
-                    
                     const rect = draggedItem.getBoundingClientRect();
                     const touch = e.touches[0];
                     offsetX = touch.clientX - rect.left;
@@ -349,7 +359,6 @@
                     ghostEl.style.margin = '0';
                     
                     document.body.appendChild(ghostEl);
-                    
                     draggedItem.classList.add('dragging');
                 }
             }, { passive: false });
@@ -357,32 +366,20 @@
             container.addEventListener('touchmove', e => {
                 if (!draggedItem || !ghostEl) return;
                 e.preventDefault(); 
-                
                 const touch = e.touches[0];
-                
                 ghostEl.style.left = (touch.clientX - offsetX) + 'px';
                 ghostEl.style.top = (touch.clientY - offsetY) + 'px';
 
                 const currentContainer = draggedItem.closest('.rows-container');
                 const afterElement = getDragAfterElement(currentContainer, touch.clientY);
-                
-                if (afterElement == null) {
-                    currentContainer.appendChild(draggedItem);
-                } else {
-                    currentContainer.insertBefore(draggedItem, afterElement);
-                }
+                if (afterElement == null) currentContainer.appendChild(draggedItem);
+                else currentContainer.insertBefore(draggedItem, afterElement);
             }, { passive: false });
 
             container.addEventListener('touchend', e => {
                 if (!draggedItem) return;
-                
                 draggedItem.classList.remove('dragging');
-                
-                if (ghostEl) {
-                    ghostEl.remove();
-                    ghostEl = null;
-                }
-                
+                if (ghostEl) { ghostEl.remove(); ghostEl = null; }
                 recalculateGroupOrder(draggedItem.closest('.rows-container'));
                 draggedItem = null;
             });
@@ -407,7 +404,6 @@
         
         rows.forEach((row, idx) => {
             row.querySelector('.rank-badge').innerText = idx + 1;
-            
             row.classList.remove('rank-1', 'rank-2', 'rank-3');
             if (idx === 0) row.classList.add('rank-1');
             if (idx === 1) row.classList.add('rank-2');
@@ -419,15 +415,11 @@
             } else {
                 if (cb && cb.checked) groupHasAdvancingThird = true;
             }
-
             newOrder.push({ name: row.getAttribute('data-team'), flag: row.getAttribute('data-flag') });
         });
 
-        if (groupHasAdvancingThird) {
-            selectedThirdPlaceGroups.add(groupLetter);
-        } else {
-            selectedThirdPlaceGroups.delete(groupLetter);
-        }
+        if (groupHasAdvancingThird) selectedThirdPlaceGroups.add(groupLetter);
+        else selectedThirdPlaceGroups.delete(groupLetter);
         
         groupStandings[groupLetter] = newOrder;
     }
@@ -480,34 +472,57 @@
         }
     });
 
+    // CORRECTED FIFA 2026 BRACKET STRUCTURE MAPPING
     const bracketTree = {
         left: {
             r32: [
-                { id: 73, t1: { source: 'R', grp: 'A' }, t2: { source: 'R', grp: 'B' }, next: 90, side: 't1' }, { id: 75, t1: { source: 'W', grp: 'F' }, t2: { source: 'R', grp: 'C' }, next: 90, side: 't2' },
-                { id: 74, t1: { source: 'W', grp: 'E' }, t2: { source: '3rd', idx: 0 }, next: 89, side: 't1' }, { id: 77, t1: { source: 'W', grp: 'I' }, t2: { source: '3rd', idx: 1 }, next: 89, side: 't2' },
-                { id: 76, t1: { source: 'W', grp: 'C' }, t2: { source: 'R', grp: 'F' }, next: 91, side: 't1' }, { id: 78, t1: { source: 'R', grp: 'E' }, t2: { source: 'R', grp: 'I' }, next: 91, side: 't2' },
-                { id: 79, t1: { source: 'W', grp: 'A' }, t2: { source: '3rd', idx: 2 }, next: 92, side: 't1' }, { id: 80, t1: { source: 'W', grp: 'L' }, t2: { source: '3rd', idx: 3 }, next: 92, side: 't2' }
+                { id: 74, t1: { source: 'W', grp: 'E' }, t2: { source: '3rd', idx: 0 }, next: 89, side: 't1' },
+                { id: 77, t1: { source: 'W', grp: 'I' }, t2: { source: '3rd', idx: 1 }, next: 89, side: 't2' },
+                { id: 73, t1: { source: 'R', grp: 'A' }, t2: { source: 'R', grp: 'B' }, next: 90, side: 't1' },
+                { id: 75, t1: { source: 'W', grp: 'F' }, t2: { source: 'R', grp: 'C' }, next: 90, side: 't2' },
+                { id: 83, t1: { source: 'R', grp: 'K' }, t2: { source: 'R', grp: 'L' }, next: 93, side: 't1' },
+                { id: 84, t1: { source: 'W', grp: 'H' }, t2: { source: 'R', grp: 'J' }, next: 93, side: 't2' },
+                { id: 81, t1: { source: 'W', grp: 'D' }, t2: { source: '3rd', idx: 2 }, next: 94, side: 't1' },
+                { id: 82, t1: { source: 'W', grp: 'G' }, t2: { source: '3rd', idx: 3 }, next: 94, side: 't2' }
             ],
             r16: [
-                { id: 90, from: [73, 75], next: 97, side: 't2' }, { id: 89, from: [74, 77], next: 97, side: 't1' },
-                { id: 91, from: [76, 78], next: 99, side: 't1' }, { id: 92, from: [79, 80], next: 99, side: 't2' }
+                { id: 89, next: 97, side: 't1' },
+                { id: 90, next: 97, side: 't2' },
+                { id: 93, next: 98, side: 't1' },
+                { id: 94, next: 98, side: 't2' }
             ],
-            qf: [ { id: 97, from: [89, 90], next: 101, side: 't1' }, { id: 99, from: [91, 92], next: 101, side: 't2' } ],
-            sf: [ { id: 101, from: [97, 99], next: 104, side: 't1' } ]
+            qf: [
+                { id: 97, next: 101, side: 't1' },
+                { id: 98, next: 101, side: 't2' }
+            ],
+            sf: [
+                { id: 101, next: 104, side: 't1' }
+            ]
         },
         right: {
             r32: [
-                { id: 81, t1: { source: 'W', grp: 'D' }, t2: { source: '3rd', idx: 4 }, next: 94, side: 't1' }, { id: 82, t1: { source: 'W', grp: 'G' }, t2: { source: '3rd', idx: 5 }, next: 94, side: 't2' },
-                { id: 83, t1: { source: 'R', grp: 'K' }, t2: { source: 'R', grp: 'L' }, next: 93, side: 't1' }, { id: 84, t1: { source: 'W', grp: 'H' }, t2: { source: 'R', grp: 'J' }, next: 93, side: 't2' },
-                { id: 85, t1: { source: 'W', grp: 'B' }, t2: { source: '3rd', idx: 6 }, next: 96, side: 't1' }, { id: 87, t1: { source: 'W', grp: 'K' }, t2: { source: '3rd', idx: 7 }, next: 96, side: 't2' },
-                { id: 86, t1: { source: 'W', grp: 'J' }, t2: { source: 'R', grp: 'H' }, next: 95, side: 't1' }, { id: 88, t1: { source: 'R', grp: 'D' }, t2: { source: 'R', grp: 'G' }, next: 95, side: 't2' }
+                { id: 76, t1: { source: 'W', grp: 'C' }, t2: { source: 'R', grp: 'F' }, next: 91, side: 't1' },
+                { id: 78, t1: { source: 'R', grp: 'E' }, t2: { source: 'R', grp: 'I' }, next: 91, side: 't2' },
+                { id: 79, t1: { source: 'W', grp: 'A' }, t2: { source: '3rd', idx: 4 }, next: 92, side: 't1' },
+                { id: 80, t1: { source: 'W', grp: 'L' }, t2: { source: '3rd', idx: 5 }, next: 92, side: 't2' },
+                { id: 86, t1: { source: 'W', grp: 'J' }, t2: { source: 'R', grp: 'H' }, next: 95, side: 't1' },
+                { id: 88, t1: { source: 'R', grp: 'D' }, t2: { source: 'R', grp: 'G' }, next: 95, side: 't2' },
+                { id: 85, t1: { source: 'W', grp: 'B' }, t2: { source: '3rd', idx: 6 }, next: 96, side: 't1' },
+                { id: 87, t1: { source: 'W', grp: 'K' }, t2: { source: '3rd', idx: 7 }, next: 96, side: 't2' }
             ],
             r16: [
-                { id: 94, from: [81, 82], next: 98, side: 't2' }, { id: 93, from: [83, 84], next: 98, side: 't1' },
-                { id: 96, from: [85, 87], next: 100, side: 't2' }, { id: 95, from: [86, 88], next: 100, side: 't1' }
+                { id: 91, next: 99, side: 't1' },
+                { id: 92, next: 99, side: 't2' },
+                { id: 95, next: 100, side: 't1' },
+                { id: 96, next: 100, side: 't2' }
             ],
-            qf: [ { id: 98, from: [93, 94], next: 102, side: 't1' }, { id: 100, from: [95, 96], next: 102, side: 't2' } ],
-            sf: [ { id: 102, from: [98, 100], next: 104, side: 't2' } ]
+            qf: [
+                { id: 99, next: 102, side: 't1' },
+                { id: 100, next: 102, side: 't2' }
+            ],
+            sf: [
+                { id: 102, next: 104, side: 't2' }
+            ]
         }
     };
 
@@ -544,20 +559,36 @@
                 const columnContainer = document.getElementById(`${side}-${round}`);
                 columnContainer.innerHTML = '';
                 
-                bracketTree[side][round].forEach(m => {
+                const matches = bracketTree[side][round];
+                
+                for (let i = 0; i < matches.length; i += 2) {
+                    const m1 = matches[i];
+                    const m2 = matches[i + 1];
+                    let pairClass = m2 ? 'match-pair is-pair' : 'match-pair';
+                    let pairHtml = `<div class="${pairClass}">`;
+                    
                     let t1 = "待定", t2 = "待定";
-                    if (round === 'r32') {
-                        t1 = getTeamString(m.t1);
-                        t2 = getTeamString(m.t2);
+                    if (round === 'r32') { t1 = getTeamString(m1.t1); t2 = getTeamString(m1.t2); }
+                    pairHtml += `
+                        <div class="match-box" id="match-${m1.id}">
+                            <div class="match-id">第${m1.id}场</div>
+                            <div class="match-team" id="match-${m1.id}-t1" onclick="pickWinner(${m1.id}, 't1')">${t1}</div>
+                            <div class="match-team" id="match-${m1.id}-t2" onclick="pickWinner(${m1.id}, 't2')">${t2}</div>
+                        </div>`;
+                    
+                    if (m2) {
+                        let m2t1 = "待定", m2t2 = "待定";
+                        if (round === 'r32') { m2t1 = getTeamString(m2.t1); m2t2 = getTeamString(m2.t2); }
+                        pairHtml += `
+                            <div class="match-box" id="match-${m2.id}">
+                                <div class="match-id">第${m2.id}场</div>
+                                <div class="match-team" id="match-${m2.id}-t1" onclick="pickWinner(${m2.id}, 't1')">${m2t1}</div>
+                                <div class="match-team" id="match-${m2.id}-t2" onclick="pickWinner(${m2.id}, 't2')">${m2t2}</div>
+                            </div>`;
                     }
-                    columnContainer.innerHTML += `
-                        <div class="match-box" id="match-${m.id}">
-                            <div class="match-id">第${m.id}场</div>
-                            <div class="match-team" id="match-${m.id}-t1" onclick="pickWinner(${m.id}, 't1')">${t1}</div>
-                            <div class="match-team" id="match-${m.id}-t2" onclick="pickWinner(${m.id}, 't2')">${t2}</div>
-                        </div>
-                    `;
-                });
+                    pairHtml += `</div>`;
+                    columnContainer.innerHTML += pairHtml;
+                }
             });
         });
 
@@ -690,11 +721,10 @@
             }
         });
 
-        // Load QR Code dynamically via API
         const qrImg = new Image();
         qrImg.crossOrigin = "Anonymous";
         qrImg.onload = () => finishDrawing(qrImg);
-        qrImg.onerror = () => finishDrawing(null); // Fallback if API fails
+        qrImg.onerror = () => finishDrawing(null); 
         qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=110x110&data=${encodeURIComponent('https://daichupeng.github.io/worldcup-simulator/')}&color=ffffff&bgcolor=1e293b&margin=0`;
 
         function finishDrawing(loadedQr) {
@@ -703,11 +733,9 @@
             canvas.height = 580;
             const ctx = canvas.getContext('2d');
             
-            // App Base Background
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Card Container
             ctx.fillStyle = '#1e293b';
             if (ctx.roundRect) {
                 ctx.beginPath();
@@ -717,7 +745,6 @@
                 ctx.fillRect(20, 20, 600, 540);
             }
 
-            // Headers
             ctx.fillStyle = '#10b981';
             ctx.font = 'bold 32px "PingFang SC", "Microsoft YaHei", sans-serif';
             ctx.textAlign = 'center';
@@ -734,7 +761,6 @@
             ctx.lineTo(590, 140);
             ctx.stroke();
 
-            // History Records
             ctx.textAlign = 'left';
             ctx.font = 'bold 20px "PingFang SC", "Microsoft YaHei", sans-serif';
             let y = 200;
@@ -753,7 +779,6 @@
                 y += 50;
             });
 
-            // Draw QR Code
             if (loadedQr) {
                 ctx.drawImage(loadedQr, 460, 360, 110, 110);
                 ctx.textAlign = 'center';
@@ -762,7 +787,6 @@
                 ctx.fillText('扫码模拟你的世界杯', 515, 495);
             }
 
-            // Footer
             ctx.textAlign = 'center';
             ctx.font = '14px "PingFang SC", "Microsoft YaHei", sans-serif';
             ctx.fillStyle = '#64748b';
@@ -798,7 +822,6 @@
                 console.log('分享中断或失败:', error);
             });
         } else {
-            // 兜底下载方案 (Fallback to regular download)
             const link = document.createElement('a');
             link.download = currentShareFilename;
             link.href = URL.createObjectURL(currentShareBlob);
